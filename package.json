@@ -1,0 +1,30 @@
+{
+  "name": "ho-lang",
+  "version": "1.0.0",
+  "description": "simple language",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ho4040/ho-lang.git"
+  },
+  "keywords": [
+    "holang"
+  ],
+  "author": "zero choi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ho4040/ho-lang/issues"
+  },
+  "homepage": "https://github.com/ho4040/ho-lang#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-live-server": "0.0.31",
+    "gulp-watch": "^5.0.0"
+  }
+}
