@@ -1,4 +1,4 @@
-var app=angular.module('app', ['ui.bootstrap']);
+var app=angular.module('app', ['ui.bootstrap', 'jsonFormatter']);
 
 app.controller("MainCtrl", function($rootScope, $scope, $http, $q, $uibModal){
 
@@ -6,10 +6,18 @@ app.controller("MainCtrl", function($rootScope, $scope, $http, $q, $uibModal){
 		code : ""
 	}
 
-	$scope.output = ""
+	$scope.output = {}
 
 	$scope.run = function(){
-		console.log(window.holang.parse($scope.input.code))
+		$scope.output = window.holang.run($scope.input.code)
+	}
+
+	$scope.tokenize = function(){
+		$scope.output = window.holang.tokenize($scope.input.code)
+	}
+
+	$scope.makeTree = function(){
+		$scope.output = window.holang.makeTree($scope.input.code)
 	}
 
 })

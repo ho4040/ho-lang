@@ -1,3 +1,9 @@
+////////////////////////////////////////////////////////
+//
+// ho-lang 2018
+// author : ho4040@nooslab.com
+//
+////////////////////////////////////////////////////////
 var tokenize = function( text ){
 
 	var tokens = [];
@@ -88,8 +94,8 @@ var makeTree = function(tokens){
 						["CONDITION", "OR", "CONDITION"]
 		],
 		"SENTENCE" : [
-						["ID", "ASSIGN", "CONDITION", "EOS"],
-						["ID", "ASSIGN", "VARIABLE", "EOS"]
+						["VARIABLE", "ASSIGN", "CONDITION"],
+						["VARIABLE", "ASSIGN", "VARIABLE"]
 		],
 	}
 
@@ -170,7 +176,10 @@ var makeTree = function(tokens){
 
 
 window.holang = {
-	parse:function(text) {
+	tokenize:function(text){
+		return tokenize(text)
+	},
+	makeTree:function(text) {
 		return makeTree(tokenize(text))
 	},
 	run:function(tree){

@@ -10,14 +10,13 @@
 	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, target-densityDpi=device-dpi">
 
 	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="bower_components/json-formatter/dist/json-formatter.min.css" />
+
 	<script src="bower_components/jquery/dist/jquery.min.js"></script>
 	<script src="bower_components/angular/angular.js"></script>
-	<script src="bower_components/angular-route/angular-route.js"></script>
 	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-	<script src="bower_components/angular-animate/angular-animate.min.js"></script>
-	<script src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
+	<script src="bower_components/json-formatter/dist/json-formatter.min.js"></script>
 
 	<script src="app.js"></script>
 	<script src="holang.js"></script>
@@ -25,32 +24,32 @@
 
 <body ng-app="app" class="container" ng-controller="MainCtrl">
 	<h1>
-		<label>HO-LANG TEST 11</label>
-		<span class="pull-right form-inline">
-			<button class="btn btn-success btn-lg" ng-click="run()">RUN ▶</button>
-		</span>	
+		<label>HO-LANG TEST 11</label>		
 	</h1>
 
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">CODE</div>
+				<div class="panel-heading"><label>CODE</label></div>
 				<div class="panel-body">
-					<textarea class="form-control" ng-model="input.code" rows="20"></textarea>
+					<textarea class="form-control" ng-model="input.code" rows="8"></textarea>
+				</div>
+				<div class="panel-footer text-right">
+						<button class="btn btn-info btn-md" ng-click="tokenize()">Tokenize</button>
+						<button class="btn btn-info btn-md" ng-click="makeTree()">Make tree</button>
+						<button class="btn btn-success btn-md" ng-click="run()">Run</button>
 				</div>
 			</div>
 		</div>
 		<div class="col-xs-12">
 			<div class="panel panel-default">
-				<div class="panel-heading">OUTPUT</div>
+				<div class="panel-heading"><label>OUTPUT</label></div>
 				<div class="panel-body">
-					{{output}}
+					<json-formatter json="output" open="1"></json-formatter>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
 	
 </body>
 </html>
