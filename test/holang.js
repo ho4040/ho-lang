@@ -7,56 +7,120 @@ window.holang = function() {
 	var lex = [
 		//{ reg:/^\$((\.([ㄱ-힣a-zA-Z]+))|(\[[0-9]+\])|(\[("[ㄱ-힣a-zA-Z]+"|'[ㄱ-힣a-zA-Z]+')\]))+/, eval:token=>{return {val:token.val, type:"DOTPATH"}} },
 		{ reg:/^-?\d+(\.\d+)?/, eval:token=>{ return {val:Number(token.val), type:"NUMBER" }} },
+		{ reg:/^(\"[^"]*\")|(\'[^']*\')/, eval:token=>{return {val:token.val, type:"STRING"}} },
 		{ reg:/^[ㄱ-힣a-zA-Z][ㄱ-힣a-zA-Z0-9]*/, eval:token=>{return {val:token.val, type:"ID"}} },
-		{ reg:/^\+/, eval:token=>{return {val:token.val, type:"PLUS"}} },
-		{ reg:/^\-/, eval:token=>{return {val:token.val, type:"MINUS"}} },
-		{ reg:/^\*/, eval:token=>{return {val:token.val, type:"MULT"}} },
-		{ reg:/^\//, eval:token=>{return {val:token.val, type:"DIVID"}} },
-		{ reg:/^>=/, eval:token=>{return {val:token.val, type:"GTE"}} },
-		{ reg:/^<=/, eval:token=>{return {val:token.val, type:"LTE"}} },
-		{ reg:/^==/, eval:token=>{return {val:token.val, type:"EQUAL"}} },
-		{ reg:/^!=/, eval:token=>{return {val:token.val, type:"NOTEQUAL"}} },
-		{ reg:/^!/, eval:token=>{return {val:token.val, type:"NOT"}} },
-		{ reg:/^>/, eval:token=>{return {val:token.val, type:"GT"}} },
-		{ reg:/^</, eval:token=>{return {val:token.val, type:"LT"}} },
-		{ reg:/^\&/, eval:token=>{return {val:token.val, type:"AND"}} },
-		{ reg:/^\|/, eval:token=>{return {val:token.val, type:"OR"}} },
-		{ reg:/^\(/, eval:token=>{return {val:token.val, type:"LP"}} },
-		{ reg:/^\)/, eval:token=>{return {val:token.val, type:"RP"}} },
-		{ reg:/^\{/, eval:token=>{return {val:token.val, type:"LB"}} },
-		{ reg:/^\}/, eval:token=>{return {val:token.val, type:"RB"}} },
-		{ reg:/^;/, eval:token=>{return {val:token.val, type:"EOS"}} },
-		{ reg:/^=/, eval:token=>{return {val:token.val, type:"ASSIGN"}} },
+		{ reg:/^\+\+/, eval:token=>{return {val:token.val, type:"++"}} },
+		{ reg:/^\-\-/, eval:token=>{return {val:token.val, type:"--"}} },
+		{ reg:/^\+\=/, eval:token=>{return {val:token.val, type:"+="}} },
+		{ reg:/^\-\=/, eval:token=>{return {val:token.val, type:"-="}} },
+		{ reg:/^\/\=/, eval:token=>{return {val:token.val, type:"/="}} },
+		{ reg:/^\*\=/, eval:token=>{return {val:token.val, type:"*="}} },
+		{ reg:/^\+/, eval:token=>{return {val:token.val, type:"+"}} },
+		{ reg:/^\-/, eval:token=>{return {val:token.val, type:"-"}} },
+		{ reg:/^\*/, eval:token=>{return {val:token.val, type:"*"}} },
+		{ reg:/^\*\*/, eval:token=>{return {val:token.val, type:"**"}} },
+		{ reg:/^\%/, eval:token=>{return {val:token.val, type:"%"}} },
+		{ reg:/^\//, eval:token=>{return {val:token.val, type:"/"}} },
+		{ reg:/^>=/, eval:token=>{return {val:token.val, type:">="}} },
+		{ reg:/^<=/, eval:token=>{return {val:token.val, type:"<="}} },
+		{ reg:/^==/, eval:token=>{return {val:token.val, type:"=="}} },
+		{ reg:/^!=/, eval:token=>{return {val:token.val, type:"!="}} },
+		{ reg:/^!/, eval:token=>{return {val:token.val, type:"!"}} },
+		{ reg:/^>/, eval:token=>{return {val:token.val, type:">"}} },
+		{ reg:/^</, eval:token=>{return {val:token.val, type:"<"}} },
+		{ reg:/^\&\&/, eval:token=>{return {val:token.val, type:"&&"}} },
+		{ reg:/^\|\|/, eval:token=>{return {val:token.val, type:"||"}} },
+		{ reg:/^\(/, eval:token=>{return {val:token.val, type:"("}} },
+		{ reg:/^\)/, eval:token=>{return {val:token.val, type:")"}} },
+		{ reg:/^\{/, eval:token=>{return {val:token.val, type:"{"}} },
+		{ reg:/^\}/, eval:token=>{return {val:token.val, type:"}"}} },
+		{ reg:/^\:/, eval:token=>{return {val:token.val, type:":"}} },
+		{ reg:/^\?/, eval:token=>{return {val:token.val, type:"?"}} },
+		{ reg:/^\=/, eval:token=>{return {val:token.val, type:"="}} },
+		{ reg:/^\,/, eval:token=>{return {val:token.val, type:","}} },
+		{ reg:/^;/, eval:token=>{return {val:token.val, type:";"}} },
 		{ reg:/^\s/, eval:token=>{return null} },
 	]
 
 	var grammar = {
-		"VARIABLE" : [
-			{p:["NUMBER"], 							eval:""},
-			{p:["ID"], 								eval:""},
-			{p:["VARIABLE", "PLUS", "VARIABLE"], 	eval:""},
-			{p:["VARIABLE", "MINUS", "VARIABLE"], 	eval:""},
-			{p:["VARIABLE", "MULT", "VARIABLE"], 	eval:""},
-			{p:["VARIABLE", "DIVID", "VARIABLE"], 	eval:""},
-			{p:["VARIABLE", "MULT", "VARIABLE"], 	eval:""},
-			{p:["LP", "VARIABLE", "RP"], 			eval:""},
+		
+		"CONDITIONAL_EXPRESSION":[
+			{p:["LOGICAL_OR_EXPRESSION"]},
+			{p:["LOGICAL_OR_EXPRESSION", "?", "EXPRESSION", ":", "CONDITIONAL_EXPRESSION"]},
 		],
-		"CONDITION" : [
-			{p:["VARIABLE", "LT", "VARIABLE"], 			eval:""},
-			{p:["VARIABLE", "GT", "VARIABLE"], 			eval:""},
-			{p:["VARIABLE", "LTE", "VARIABLE"], 		eval:""},
-			{p:["VARIABLE", "GTE", "VARIABLE"], 		eval:""},
-			{p:["VARIABLE", "EQUAL", "VARIABLE"], 		eval:""},
-			{p:["VARIABLE", "NOTEQUAL", "VARIABLE"], 	eval:""},
-			{p:["LP", "CONDITION", "RP"], 				eval:""},
-			{p:["NOT", "CONDITION"], 					eval:""},
-			{p:["CONDITION", "AND", "CONDITION"], 		eval:""},
-			{p:["CONDITION", "OR", "CONDITION"], 		eval:""},
+		"LOGICAL_OR_EXPRESSION":[
+			{p:["LOGICAL_AND_EXPRESSION"]},
+			{p:["LOGICAL_OR_EXPRESSION", "||", "LOGICAL_AND_EXPRESSION"]},
 		],
-		"SENTENCE" : [
-			{p:["VARIABLE", "ASSIGN", "CONDITION", "EOS"], eval:""},
-			{p:["VARIABLE", "ASSIGN", "VARIABLE", "EOS"], eval:""},
+		"LOGICAL_AND_EXPRESSION":[
+			{p:["EQUALITY_EXPRESSION"]},
+			{p:["LOGICAL_AND_EXPRESSION", "&&", "EQUALITY_EXPRESSION"]},
+		],
+		"EQUALITY_EXPRESSION":[
+			{p:["RELATIONAL_EXPRESSION"]},
+			{p:["EQUALITY_EXPRESSION", "==", "RELATIONAL_EXPRESSION"]},
+			{p:["EQUALITY_EXPRESSION", "!=", "RELATIONAL_EXPRESSION"]},
+			
+		],
+		"RELATIONAL_EXPRESSION":[
+			{p:["ADDITIVE_EXPRESSION"]},
+			{p:["RELATIONAL_EXPRESSION", "<", "ADDITIVE_EXPRESSION"]},
+			{p:["RELATIONAL_EXPRESSION", ">", "ADDITIVE_EXPRESSION"]},
+			{p:["RELATIONAL_EXPRESSION", "<=", "ADDITIVE_EXPRESSION"]},
+			{p:["RELATIONAL_EXPRESSION", ">=", "ADDITIVE_EXPRESSION"]},
+			{p:["!", "RELATIONAL_EXPRESSION"]},
+		],
+		"ADDITIVE_EXPRESSION":[
+			{p:["MULTIPLICATIVE_EXPRESSION"]},
+			{p:["ADDITIVE_EXPRESSION", "+", "MULTIPLICATIVE_EXPRESSION"]},
+			{p:["ADDITIVE_EXPRESSION", "-", "MULTIPLICATIVE_EXPRESSION"]},
+		],
+		"MULTIPLICATIVE_EXPRESSION":[
+			{p:["UNARY_EXPRESSION"]},
+			{p:["MULTIPLICATIVE_EXPRESSION", "**", "UNARY_EXPRESSION"]},
+			{p:["MULTIPLICATIVE_EXPRESSION", "*", "UNARY_EXPRESSION"]},
+			{p:["MULTIPLICATIVE_EXPRESSION", "/", "UNARY_EXPRESSION"]},
+			{p:["MULTIPLICATIVE_EXPRESSION", "%", "UNARY_EXPRESSION"]},
+			
+		],
+		"UNARY_EXPRESSION":[
+			{p:["POSTFIX_EXPRESSION"]},
+			{p:["--", "UNARY_EXPRESSION"]},
+			{p:["++", "UNARY_EXPRESSION"]},
+			{p:["-", "MULTIPLICATIVE_EXPRESSION"]},
+		],
+		"POSTFIX_EXPRESSION":[
+			{p:["PRIMARY_EXPRESSION"]},
+			{p:["POSTFIX_EXPRESSION", "[", "EXPRESSION", "]"]},
+			{p:["POSTFIX_EXPRESSION", "--"]},
+			{p:["POSTFIX_EXPRESSION", "++"]},
+		],
+		"PRIMARY_EXPRESSION":[
+			{p:["ID"]},
+			{p:["CONSTANT"]},
+			{p:["STRING"]},
+			{p:["(", "EXPRESSION", ")"]},
+		],
+		"CONSTANT":[
+			{p:["NUMBER"]},
+		],
+		"EXPRESSION" : [
+			{p:["ASSIGNMENT_EXPRESSION"]},
+			{p:["EXPRESSION", ",", "ASSIGNMENT_EXPRESSION"]},
+		],
+
+		"ASSIGNMENT_EXPRESSION" : [
+			{p:["CONDITIONAL_EXPRESSION"]},
+			{p:["UNARY_EXPRESSION", "ASSIGNMENT_OPERATOR", "ASSIGNMENT_EXPRESSION"]},
+		],
+		"ASSIGNMENT_OPERATOR":[
+			{p:["="]},
+			{p:["*="]},
+			{p:["+="]},
+			{p:["-="]},
+			{p:["/="]},
 		]
+		
 	}
 
 	var tokenize = function( text ){
@@ -120,54 +184,88 @@ window.holang = function() {
 	var findPattern = function(tokens, grammar) {
 
 		var types = tokens.map(e=>{return e.type;});
-			
+
+		var found = []
+
 		for(var nodeName in grammar)
 		{
 			var grammars = grammar[nodeName];
-			var foundIndex = -1;
-			var g = null;						
-			
+
 			for(var i=0;i<grammars.length;i++)
 			{
 				var idx = indexOfSeq(grammars[i].p, types);
-				if( idx != -1){
-					foundIndex = idx;
-					g = grammars[i];
-					break;
+				if( idx != -1)
+				{
+					found.push({
+						"type":nodeName,
+						"index":idx,
+						"grammar":grammars[i]
+					});
 				}
+
 			}
 
-			if(foundIndex != -1){
-				return {
-					"type":nodeName,
-					"index":foundIndex,
-					"grammar":g
-				}
-			}
 		}
 
-		return null;
+		return found;
 	}
 
 	var makeNode = function(tokens, grammar){
-		var info = findPattern(tokens, grammar);
-		console.log(info)
-		if(!!info){
-			var newNode = {type:info.type}	
-			newNode.children = tokens.splice(info.index, info.grammar.p.length, newNode)						
-			newNode.grammer = info.grammar;
+		var infoList = findPattern(tokens, grammar);
+		var mostShallow = null;
+		for(var i in infoList)
+		{
+			var info = infoList[i];
+
+			var children = tokens.slice(info.index, info.index+info.grammar.p.length)
+			info.depth = Math.max(...children.map(e=>{ return (('depth' in e)?e.depth:0); }))
+			info.children = children;
+			
+			if(mostShallow == null || (mostShallow.depth >= info.depth))
+			{
+				if(mostShallow == null)
+					mostShallow = info;
+				else if(mostShallow.depth > info.depth)
+					mostShallow = info;
+				else if(mostShallow.grammar.p.length < info.grammar.p.length)
+					mostShallow = info;
+				else {
+					//None
+				}
+
+			}
 		}
+
+		console.log(tokens.map(e=>{return e.type;}), infoList)
+
+
+		var info = mostShallow;
+		var newNode = { type:info.type }	
+		newNode.children = tokens.splice(info.index, info.grammar.p.length, newNode)
+		newNode.grammar = info.grammar;
+		newNode.depth = info.depth+1;
+
 		return info;
 	}
 
 
-	var makeTree = function(tokens){
-		var types = tokens.map(e=>{return e.type;});
+	var makeTree = function(tokens, tryLimit){
+		
+		if(!tryLimit)
+			tryLimit = -1;
 		//MAKE NODE UNTIL JUST 1 NODE REMAIN
-		do{
+		do
+		{
 			var patternFound = makeNode(tokens, grammar);
+
+
 			if(tokens.length > 1 && patternFound == null)
 				throw Error(tokens.map(e=>{return e.type;}).join(" ")+", >> grammar error");
+			
+			if(tryLimit == 0)
+				break;
+			tryLimit--;
+
 		}while( tokens.length > 1 && patternFound != null)
 		
 		return tokens;
@@ -189,14 +287,15 @@ window.holang = function() {
 
 	var run = function(context, code) {
 		var tree = makeTree(tokenize(code));		
+		return tree;
 	}
 
 	return {
 		tokenize:function(code){
 			return tokenize(code)
 		},
-		makeTree:function(code) {
-			return makeTree(tokenize(code))
+		makeTree:function(code, tryLimit) {
+			return makeTree(tokenize(code), tryLimit)
 		},
 		run:function(context, code){
 			return run(context, code);

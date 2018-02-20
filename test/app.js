@@ -3,13 +3,17 @@ var app = angular.module('app', ['ui.bootstrap', 'jsonFormatter']);
 app.controller("MainCtrl", function($rootScope, $scope, $http, $q, $uibModal){
 
 	$scope.input = {
-		code : ""
+		code : "사과=딸기+1",
+		context: {
+			"사과":1,
+			"딸기":4
+		}
 	}
 
 	$scope.output = {}
 
 	$scope.run = function(){
-		$scope.output = holang.run($scope.input.code)
+		$scope.output = holang.run($scope.input.context, $scope.input.code)
 	}
 
 	$scope.tokenize = function(){
@@ -17,7 +21,7 @@ app.controller("MainCtrl", function($rootScope, $scope, $http, $q, $uibModal){
 	}
 
 	$scope.makeTree = function(){
-		$scope.output = holang.makeTree($scope.input.code)
+		$scope.output = holang.makeTree($scope.input.code, -1)
 	}
 
 })
