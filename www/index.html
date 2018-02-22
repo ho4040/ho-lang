@@ -32,27 +32,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading"><label>CODE</label></div>
 				<div class="panel-body">
-					<div class="row">
-						<div class='col-sm-8 col-xs-12'>
-							<textarea class="form-control" ng-model="input.code" rows="8"></textarea>
-						</div>
-						<div class='col-sm-4 col-xs-12'>
-							<table class="table table-bordered table-condensed">
-								<thead>
-									<tr>
-										<th>변수명</th>
-										<th>값</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr ng-repeat="(k,v) in input.context">
-										<td class="text-right">{{k}}</td>
-										<td>{{v}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
+					<textarea class="form-control" ng-model="input.code" rows="8"></textarea>
 				</div>
 				<div class="panel-footer text-right">
 						<button class="btn btn-info btn-md" ng-click="tokenize()">Tokenize</button>

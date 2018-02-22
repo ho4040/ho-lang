@@ -6,7 +6,7 @@ var server = require('gulp-server-livereload');
 
 
 gulp.task("copy", function(){
-	gulp.src("./holang.js").pipe(gulp.dest("./test"))
+	gulp.src("./holang.js").pipe(gulp.dest("./www"))
 })
 
 gulp.task('watch', function () {
@@ -16,8 +16,8 @@ gulp.task('watch', function () {
   }));
 });
 
-gulp.task('test',['copy', 'watch'], function() {
-  gulp.src("test")
+gulp.task('www',['copy', 'watch'], function() {
+  gulp.src("www")
     .pipe(server({
       livereload: true,
       directoryListing: false,
