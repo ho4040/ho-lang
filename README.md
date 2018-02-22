@@ -9,13 +9,6 @@ $ npm install
 $ cd test
 $ bower install
 $ cd ..
-$ gulp test
+$ gulp www
 ```
 
-
-# todo
-
-* 컴파일러
-* VM
-* 제어문
-* AMD
