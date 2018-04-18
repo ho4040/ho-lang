@@ -36,7 +36,7 @@
 "false"               return 'FALSE'
 "PI"                  return 'PI'
 "E"                   return 'E'
-[a-zA-Zㄱ-힣][a-zA-Zㄱ-힣0-9]*\b  return 'ID'
+[a-zA-Zㄱ-힣][a-zA-Zㄱ-힣0-9]* return 'ID'
 <<EOF>>               return 'EOF'
 .                     return 'INVALID'
 
@@ -61,17 +61,24 @@
 
 
 %{
-    var _ctx = {};
-    var _debug = function(v){ 
-        //console.log(v); 
-    };
+var _ctx = {};
+var _debug = function(v){ 
+    //console.log(v); 
+};
+
+parser.setContext = function(ctx){
+  _ctx = ctx;
+}
+parser.getContext = function(){
+  return _ctx;
+}
 
 %}
 
 %% /* language grammar */
 
 program : l EOF
-        { $$ = $1; console.log('Result:'); console.log(JSON.stringify(_ctx, null, 4)) }
+        { $$ = $1; /*console.log('Result:'); console.log(JSON.stringify(_ctx, null, 4))*/ }
         ;
 
 l  : s
