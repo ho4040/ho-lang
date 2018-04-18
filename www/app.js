@@ -6,7 +6,7 @@ app.controller("MainCtrl", function($rootScope, $scope, $http, $q, $uibModal){
 	$scope.error = "";
 
 	$scope.input = {
-		code : ""
+		code : `수박=1; 사과=2; 합=수박+사과;`
 	}
 
 	$scope.output = null
