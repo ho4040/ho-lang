@@ -13,7 +13,7 @@ JS로 제작한 간단한 언어 입니다. 데모는 [이곳](https://ho4040.gi
 ### bower 로 설치
 
 ```bash
-$bower install holang
+$ bower install holang
 ```
 
 ### 스크립트 로드 
@@ -74,22 +74,22 @@ console.log(result);
 
 # 개발 프로세스
 
-ho-lang 은 jison 을 기반으로 하고 있습니다. 
+ho-lang 은 [jison](https://zaa.ch/jison/) 을 기반으로 하고 있습니다. 
 
 ```bash
-$npm install jison -g
+$ npm install jison -g
 ```
 
 jison 을 설치했으면, holang.jison 파일을 수정하고 빌드 할 수 있습니다.
 
 ```bash
-$jison holang.jison
+$ jison holang.jison
 ```
 
 수정한 스펙을 테스트를 하기 위해서는 관련 라이브러리를 셋팅해야 합니다.
 
 ```bash
-$npm install
+$ npm install
 ```
 
 이제 다음을 통해 브라우져를 켜고 테스트 할 수 있습니다. 
