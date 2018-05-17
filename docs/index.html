@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<title>Ho-lang</title>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, target-densityDpi=device-dpi">
+
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="bower_components/json-formatter/dist/json-formatter.min.css" />
+	<script src="https://use.fontawesome.com/f5b6865e77.js"></script>
+
+
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script src="bower_components/json-formatter/dist/json-formatter.min.js"></script>
+
+	<script src="holang.js"></script>
+	<script src="app.js"></script>
+	<style>
+		.logo {
+			margin: -16px;
+			height: 80px;
+			margin-top: -30px;
+		} 
+		.jumbotron {
+			background-color: #333333;
+    	color: white;
+		}
+	</style>
+</head>
+
+<body ng-app="app" class="container" ng-controller="MainCtrl" style="margin-top:1em;">
+
+	<div class="jumbotron">
+		
+		<h1>
+			<img class="logo" src="res/logo.png">
+			HO-LANG
+		</h1>
+		<p>간단한 공식을 계산 할 수 있는 라이브러리 입니다.</p>
+
+		<div class="col-xs-12" style="display:flex;align-items:center;justify-content:flex-end;font-size:1.1em;">
+			<a href="https://github.com/ho4040/ho-lang" style="">
+				<span>
+					<i class="fa fa-github"></i>
+				</span>
+				<span>Github</span>
+			</a>
+		</div>
+	</div>
+
+	<uib-tabset>
+
+		<uib-tab index="0" heading="사용법" >
+			<div style="padding:1em;">				
+				<h4>라이브러리 사용법</h4>
+				<ol>
+					<li>
+						bower 를 이용해서 라이브러리 받기
+						<pre>$bower install ho-lang</pre>
+					</li>
+					<li>
+						스크립트 불러오기
+						<pre>&lt;script src=&quot;bower_components/ho-lang/dist/holang.min.js&quot;&gt;&lt;/script&gt;</pre>
+					</li>
+					<li>
+						코드 파싱 & 실행
+						<pre>var code = `사과=10;수박=20;합=사과+수박*2;`
+var result = holang.parse(code);
+console.log(result);
+</pre>
+					</li>
+					<li>
+						컨텍스트를 미리 지정하여 사용 할 수 있습니다.
+						<pre>holang.setContext({"수박":"10"});
+var code = `사과=수박+2`
+var result = holang.parse(code);
+console.log(result);
+</pre>
+					</li>
+				</ol>
+				<hr>
+				<h4>Holang 문법</h4>
+				<ul>
+					<li>
+						'=' 연산자를 통해 변수에 값을 대입 합니다. 문장의 끝에는 세미콜론';'이 옵니다.
+						<pre>사과=1;
+배=사과+1;							
+</pre>
+					</li>
+					<li>
+						사칙연산을 지원합니다. 괄호를 통해 연산순서를 조절 할 수 있습니다.
+						<pre>삼=3;
+사겠죠=삼+1;
+마이너스팔=사겠죠*-2;
+마이너스사=마이너스팔/2;
+십이=(사겠죠+2)*2;
+</pre>
+					</li>
+					<li>
+						거듭제곱은 "^" 연산자를 이용합니다. 나머지 연산은 "%" 을 이용합니다.
+						<pre>아마도팔=2^3;
+아마도삼=아마도팔%5;
+</pre>
+					</li>
+				</ul>
+			</div>
+		</uib-tab>
+
+		<uib-tab index="1" heading="데모">
+			<div style="padding:1em;">
+				<div class="row">
+					<div class="col-xs-12">			
+						<div class="panel panel-default">
+							<div class="panel-heading"><label>CODE</label></div>
+							<div class="panel-body">							
+								<textarea class="form-control" ng-model="input.code" rows="8"></textarea>
+								<pre ng-if="!!error" style="margin-top:1em;">{{error}}</pre>
+							</div>				
+							<div class="panel-footer">
+								<button class="btn btn-danger btn-md" ng-click="reset()">Reset</button>
+								<button class="btn btn-success btn-md pull-right" ng-click="run()">Run</button>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xs-12" ng-if="!!output">
+						<div class="panel panel-default">
+							<div class="panel-heading"><label>RESULT</label></div>
+							<div class="panel-body">
+								<json-formatter json="output" open="1"></json-formatter>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</uib-tab>
+		
+			
+		
+	</uib-tabset>
+
+		
+	
+</body>
+</html>

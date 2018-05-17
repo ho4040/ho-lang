@@ -26,6 +26,8 @@
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
     "gulp-server-livereload": "^1.9.2",
-    "gulp-watch": "^5.0.0"
+    "gulp-watch": "^5.0.0",
+    "del": "^3.0.0",
+    "gulp-minify": "^2.1.0"
   }
 }
