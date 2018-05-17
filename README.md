@@ -97,3 +97,17 @@ $ npm install
 ```bash
 $ gulp www
 ```
+
+
+---
+
+# TODO
+
+* 제어문
+* 반복문
+* 배열
+* 구조체
+* IO
+* log
+* e, Pi
+* import
