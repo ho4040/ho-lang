@@ -77,10 +77,23 @@ console.log(result);
 ho-lang 은 jison 을 기반으로 하고 있습니다. 
 
 ```bash
-$ npm install
-$ cd test
-$ bower install
-$ cd ..
-$ gulp www
+$npm install jison -g
 ```
 
+jison 을 설치했으면, holang.jison 파일을 수정하고 빌드 할 수 있습니다.
+
+```bash
+$jison holang.jison
+```
+
+수정한 스펙을 테스트를 하기 위해서는 관련 라이브러리를 셋팅해야 합니다.
+
+```bash
+$npm install
+```
+
+이제 다음을 통해 브라우져를 켜고 테스트 할 수 있습니다. 
+
+```bash
+$ gulp www
+```
