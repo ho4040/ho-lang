@@ -13,7 +13,7 @@ JS로 제작한 간단한 언어 입니다. 데모는 [이곳](https://ho4040.gi
 ### bower 로 설치
 
 ```bash
-$bower install ho-lang
+$bower install holang
 ```
 
 ### 스크립트 로드 
